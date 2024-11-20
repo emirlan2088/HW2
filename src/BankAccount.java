@@ -1,29 +1,16 @@
 public class BankAccount {
-    private double amount;  // Остаток на счете
+    private double amount;
 
-    // Конструктор для создания счета с начальным балансом
-    public BankAccount(double initialAmount) {
-        this.amount = initialAmount;
-    }
-
-    // Метод для получения текущего остатка на счете
     public double getAmount() {
         return amount;
     }
-
-    // Метод для пополнения счета
-    public void deposit(double sum) {
-        if (sum > 0) {
-            amount += sum;
-        }
+    public void deposit(double sum){
+        amount += sum;
     }
-
-    // Метод для снятия суммы с счета
-    public void withDraw(double sum) throws LimitException {
-        if (sum > amount) {
-            throw new LimitException("Недостаточно средств на счете!", amount);
-        } else {
-            amount -= sum;
+    public double withDraw(double sum) throws LimitException{
+        if(sum > amount){
+            throw new LimitException("Ошибка недостаточно денег на счете Ваш счет = ", amount);
         }
+        return amount -= sum;
     }
 }

@@ -1,19 +1,26 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws LimitException {
-        // Создаем счет с начальной суммой 15 000 сом
-        BankAccount account = new BankAccount(15000);
-
-        // Попытка снять деньги в бесконечном цикле
+        BankAccount account = new BankAccount();
+        account.deposit(15000);
+        Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println("Сколько вы хотите снять");
+            int a = scanner.nextInt();
             try {
-                account.withDraw(6000);  // Пытаемся снять 6000 сом
-                System.out.println("Снято 6000 сом. Остаток на счете: " + account.getAmount());
+                account.withDraw(a);
+                System.out.println("Снято " + a + " сом "+ " Остаток на счете: " + account.getAmount());
             } catch (LimitException e) {
-                // Если средств на счете недостаточно, снимаем оставшуюся сумму
-                System.out.println("Недостаточно средств. Снимаем оставшиеся " + e.getRemainingAmount() + " сом.");
-                account.withDraw(e.getRemainingAmount());  // Снимаем оставшиеся деньги
-                System.out.println("Оставшийся остаток на счете: " + account.getAmount());
-                break;  // Завершаем цикл
+                System.out.println(e.getMessage());
+                System.out.println("Оставшаяся сумма: " + e.getRemainingAmount());
+                try {
+                    account.withDraw(e.getRemainingAmount());
+                    System.out.println("Оставшаяся сумма снята. Вас счет: " + account.getAmount());
+                } catch (LimitException ex){
+                    System.out.println("Ошибка: " + ex.getMessage());
+                }
+                break;
             }
         }
     }
